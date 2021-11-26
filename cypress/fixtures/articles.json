@@ -1,0 +1,54 @@
+{
+    "articles": [
+        {
+            "slug": "test-591",
+            "title": "test",
+            "description": "test",
+            "body": "test",
+            "createdAt": "2021-11-26T21:31:34.782Z",
+            "updatedAt": "2021-11-26T21:31:34.782Z",
+            "tagList": [
+                "test",
+                "butt",
+                "coffee",
+                "dragon",
+                "clean",
+                "sugar",
+                "flowers",
+                "cars",
+                "thai",
+                "usa",
+                "climb",
+                "hike",
+                "happy",
+                "smile"
+            ],
+            "author": {
+                "username": "som test",
+                "bio": null,
+                "image": "https://api.realworld.io/images/smiley-cyrus.jpeg"
+            },
+            "comments": [],
+            "favoritesCount": 1,
+            "favorited": true
+        },
+        {
+            "slug": "This-is-a-title5-591",
+            "title": "This is a title5",
+            "description": "This is description",
+            "body": "This is a body",
+            "createdAt": "2021-11-26T21:27:32.150Z",
+            "updatedAt": "2021-11-26T21:27:32.150Z",
+            "tagList": [],
+            "author": {
+                "username": "som test",
+                "bio": null,
+                "image": "https://api.realworld.io/images/smiley-cyrus.jpeg"
+            },
+            "comments": [],
+            "favoritesCount": 5,
+            "favorited": false
+        }
+    ],
+    "articlesCount": 2
+}

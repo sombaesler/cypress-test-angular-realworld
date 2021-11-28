@@ -4,27 +4,59 @@ describe('Test with backend', () => {
 
     beforeEach('log in to the app', () => {
 
-        cy.intercept({method: 'GET', path: 'tags'}, {fixture: 'tags.json'})
+        cy.intercept({ method: 'GET', path: 'tags' }, { fixture: 'tags.json' })
         cy.loginToApplication()
 
     })
 
     it('verify correct request and response', () => {
 
-        cy.intercept({method: 'POST', path: 'articles', url: 'https://api.realworld.io/api/articles/'}).as('postArticles')
+        cy.intercept({
+            method: 'POST',
+            path: 'articles',
+            url: 'https://api.realworld.io/api/articles/'
+        }).as('postArticles')
 
         cy.contains('New Article').click()
-        cy.get('[formcontrolname="title"]').type('This is a title')
+        cy.get('[formcontrolname="title"]').type('This is a title-10')
         cy.get('[formcontrolname="description"]').type('This is description')
         cy.get('[formcontrolname="body"]').type('This is a body')
         cy.contains('Publish Article').click()
-        
 
         cy.wait('@postArticles').then((xhr) => {
             console.log(xhr)
             expect(xhr.request.body.article.body).to.equal('This is a body')
             expect(xhr.response.statusCode).to.equal(200)
             expect(xhr.response.body.article.description).to.equal('This is description')
+        })
+    })
+
+    it('intercept and modify the request and response', () => {
+
+        cy.intercept({
+            method: 'POST',
+            path: 'articles',
+            url: 'https://api.realworld.io/api/articles/'
+        },
+            (req) => {
+                req.body.article.description = "This is description 2"
+                req.reply((res) => {
+                    expect(res.body.article.description).to.equal('This is description 2')
+                    res.body.article.description = "This is description 3"
+                })
+            }).as('postArticles')
+
+        cy.contains('New Article').click()
+        cy.get('[formcontrolname="title"]').type('This is a title-9')
+        cy.get('[formcontrolname="description"]').type('This is description')
+        cy.get('[formcontrolname="body"]').type('This is a body')
+        cy.contains('Publish Article').click()
+
+        cy.wait('@postArticles').then((xhr) => {
+            console.log(xhr)
+            expect(xhr.request.body.article.body).to.equal('This is a body')
+            expect(xhr.response.statusCode).to.equal(200)
+            expect(xhr.response.body.article.description).to.equal('This is description 3')
         })
     })
 
@@ -36,8 +68,8 @@ describe('Test with backend', () => {
     })
 
     it('verify global feed likes count', () => {
-        cy.intercept('GET', '**/articles/feed*', {"articles":[],"articlesCount":0})
-        cy.intercept('GET', '**/articles*', {fixture: 'articles.json'})
+        cy.intercept('GET', '**/articles/feed*', { "articles": [], "articlesCount": 0 })
+        cy.intercept('GET', '**/articles*', { fixture: 'articles.json' })
 
         cy.contains('Global Feed').click()
         cy.get('app-article-list button').then(listOfButtons => {

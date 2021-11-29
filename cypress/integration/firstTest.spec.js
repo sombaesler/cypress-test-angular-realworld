@@ -89,14 +89,7 @@ describe('Test with backend', () => {
     })
 
     it('delete a new article in a global feed', () => {
-
-        const userCredentials = {
-            "user": {
-                "email": "somtest@gmail.com",
-                "password": "####4444"
-            }
-        }
-
+        
         const bodyRequest = {
             "article": {
                 "tagList": [
@@ -109,9 +102,7 @@ describe('Test with backend', () => {
             }
         }
 
-        cy.request('POST', 'https://api.realworld.io/api/users/login', userCredentials)
-            .its('body').then(body => {
-                const token = body.user.token
+        cy.get('@token').then(token => {
 
                 cy.request({
                     url: 'https://api.realworld.io/api/articles/',

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="29.8000" tests="5" failures="2">
+  <testsuite name="Root Suite" timestamp="2021-12-01T17:50:07" tests="0" file="cypress/integration/firstTest.spec.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Test with backend" timestamp="2021-12-01T17:50:07" tests="5" time="29.7690" failures="2">
+    <testcase name="Test with backend verify correct request and response" time="3.6450" classname="verify correct request and response">
+      <failure message="expected 422 to equal 200" type="AssertionError"><![CDATA[AssertionError: expected 422 to equal 200
+    at Context.eval (http://localhost:4200/__cypress/tests?p=cypress/integration/firstTest.spec.js:124:42)]]></failure>
+    </testcase>
+    <testcase name="Test with backend intercept and modify the request and response" time="2.9860" classname="intercept and modify the request and response">
+      <failure message="Cannot read properties of undefined (reading &apos;description&apos;)" type="TypeError"><![CDATA[TypeError: Cannot read properties of undefined (reading 'description')
+    at eval (http://localhost:4200/__cypress/tests?p=cypress/integration/firstTest.spec.js:136:33)]]></failure>
+    </testcase>
+    <testcase name="Test with backend should give tags with routing objects" time="1.1920" classname="should give tags with routing objects">
+    </testcase>
+    <testcase name="Test with backend verify global feed likes count" time="1.5990" classname="verify global feed likes count">
+    </testcase>
+    <testcase name="Test with backend delete a new article in a global feed" time="3.5950" classname="delete a new article in a global feed">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -14,7 +14,7 @@ describe('Test with backend', () => {
         cy.intercept({
             method: 'POST',
             path: 'articles',
-            url: 'https://api.realworld.io/api/articles/'
+            url: Cypress.env('apiUrl') + 'api/articles/'
         }).as('postArticles')
 
         cy.contains('New Article').click()
@@ -36,7 +36,7 @@ describe('Test with backend', () => {
         cy.intercept({
             method: 'POST',
             path: 'articles',
-            url: 'https://api.realworld.io/api/articles/'
+            url: Cypress.env('apiUrl') + 'api/articles/'
         },
             (req) => {
                 req.body.article.description = "This is description 2"
@@ -89,7 +89,7 @@ describe('Test with backend', () => {
     })
 
     it('delete a new article in a global feed', () => {
-        
+
         const bodyRequest = {
             "article": {
                 "tagList": [
@@ -104,27 +104,27 @@ describe('Test with backend', () => {
 
         cy.get('@token').then(token => {
 
-                cy.request({
-                    url: 'https://api.realworld.io/api/articles/',
-                    headers: { 'Authorization': 'Token ' + token },
-                    method: 'POST',
-                    body: bodyRequest
-                }).then(response => {
-                    expect(response.status).to.equal(200)
-                })
-
-                cy.contains('Global Feed').click()
-                cy.get('.article-preview').first().click()
-                cy.get('.article-actions').contains('Delete Article').click()
-                cy.contains('Global Feed').click()
-
-                cy.request({
-                    url: 'https://api.realworld.io/api/articles?limit=10&offset=0',
-                    headers: { 'Authorization': 'Token ' + token },
-                    method: 'GET',
-                }).its('body').then(body => {
-                    expect(body.articles[0].title).not.to.equal('A request from api')
-                })
+            cy.request({
+                url: Cypress.env('apiUrl') + 'api/articles/',
+                headers: { 'Authorization': 'Token ' + token },
+                method: 'POST',
+                body: bodyRequest
+            }).then(response => {
+                expect(response.status).to.equal(200)
             })
+
+            cy.contains('Global Feed').click()
+            cy.get('.article-preview').first().click()
+            cy.get('.article-actions').contains('Delete Article').click()
+            cy.contains('Global Feed').click()
+
+            cy.request({
+                url: Cypress.env('apiUrl') + 'api/articles?limit=10&offset=0',
+                headers: { 'Authorization': 'Token ' + token },
+                method: 'GET',
+            }).its('body').then(body => {
+                expect(body.articles[0].title).not.to.equal('A request from api')
+            })
+        })
     })
 })
